@@ -4,7 +4,20 @@ const path = require('path');
 
 const app = express();
 app.use(express.json());
+// 添加 CORS 支持
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
+app.use(express.json());
+
+// ... 其余代码不变
 const DATA_FILE = path.join(__dirname, 'data.json');
 
 // 初始化数据文件
